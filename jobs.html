@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Examinations | Rwanda Exam Hub</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f5fa;
+  color: #17243a;
+}
+header {
+  background: #123c75;
+  color: white;
+  padding: 24px 15px;
+  text-align: center;
+}
+header h1 { margin: 0 0 8px; }
+nav {
+  background: #092b55;
+  padding: 13px;
+  text-align: center;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+}
+.container {
+  max-width: 850px;
+  margin: 25px auto;
+  padding: 15px;
+}
+.card {
+  background: white;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px #00000012;
+}
+button {
+  background: #1263bd;
+  color: white;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+  margin-top: 12px;
+  font-size: 15px;
+}
+button:hover { background: #084786; }
+button:disabled { background: #999; cursor: not-allowed; }
+.question { margin: 20px 0; }
+.option {
+  display: block;
+  padding: 12px;
+  margin: 8px 0;
+  background: #f1f5fb;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.option:hover { background: #e1edfc; }
+input[type="radio"] { margin-right: 10px; }
+#result {
+  display: none;
+  background: #e7f5eb;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+#timer { font-weight: bold; color: #bd351e; }
+.explanation { margin: 8px 0 18px; }
+footer {
+  background: #092b55;
+  color: white;
+  text-align: center;
+  padding: 18px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>RWANDA EXAM HUB</h1>
+  <p>Job Seekers Examination Centre</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="jobs.html">Job Examinations</a>
+</nav>
+
+<main class="container">
+
+<section class="card">
+  <h2>Welcome, Job Seekers!</h2>
+  <p>Prepare for recruitment examinations through practice tests.</p>
+  <h3>Available examination</h3>
+  <p><strong>General Recruitment Aptitude Test</strong></p>
+  <p>Questions: 10 | Total marks: 100</p>
+  <p>Time allowed: 15 minutes</p>
+  <button id="startBtn" onclick="startExam()">Start Examination</button>
+</section>
+
+<section class="card" id="exam" hidden>
+  <div>
+    <strong>General Recruitment Aptitude Test</strong>
+    <p>Time remaining: <span id="timer">15:00</span></p>
+  </div>
+  <form id="examForm">
+    <div id="questions"></div>
+    <button type="submit" id="submitBtn">Submit Examination</button>
+  </form>
+</section>
+
+<section id="result">
+  <h2>Examination Results</h2>
+  <h3 id="score"></h3>
+  <p id="message"></p>
+  <h3>Answer Review</h3>
+  <div id="review"></div>
+  <button onclick="location.reload()">Retake Examination</button>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 Rwanda Exam Hub</p>
+  <p>Learn Today. Succeed Tomorrow.</p>
+</footer>
+
+<script>
+const questions = [
+{
+q:"What is the main purpose of public service?",
+o:["To serve the public","To make personal profit","To avoid responsibility","To promote private interests"],
+a:0,
+e:"Public service exists to provide services that benefit citizens."
+},
+{
+q:"Which document normally explains the duties of a job?",
+o:["Job description","Birth certificate","Shopping list","Travel ticket"],
+a:0,
+e:"A job description explains the responsibilities and duties of a position."
+},
+{
+q:"What should you do when a citizen makes a complaint?",
+o:["Ignore the citizen","Listen carefully and respond professionally","Argue with the citizen","Leave the office"],
+a:1,
+e:"Professional service requires listening and responding respectfully."
+},
+{
+q:"What is 25% of 200?",
+o:["25","40","50","75"],
+a:2,
+e:"25% of 200 = 0.25 × 200 = 50."
+},
+{
+q:"Which tool is commonly used to prepare documents?",
+o:["Microsoft Word","Calculator only","Camera","Music player"],
+a:0,
+e:"Microsoft Word is commonly used to create and edit documents."
+},
+{
+q:"What is accountability?",
+o:["Avoiding work","Being responsible for your actions","Blaming colleagues","Hiding information"],
+a:1,
+e:"Accountability means accepting responsibility for decisions and actions."
+},
+{
+q:"If a meeting starts at 9:00 AM and lasts 2 hours, when does it end?",
+o:["10:00 AM","11:00 AM","12:00 PM","1:00 PM"],
+a:1,
+e:"9:00 AM plus two hours is 11:00 AM."
+},
+{
+q:"Which quality is important when working in a team?",
+o:["Cooperation","Dishonesty","Selfishness","Disrespect"],
+a:0,
+e:"Cooperation helps team members achieve shared goals."
+},
+{
+q:"What is the best way to protect confidential information?",
+o:["Share it publicly","Use appropriate security and access controls","Post it on social media","Give it to everyone"],
+a:1,
+e:"Confidential information should only be accessed by authorized people."
+},
+{
+q:"What should you do if you do not understand an assigned task?",
+o:["Guess without asking","Ignore the task","Ask for clarification","Blame someone else"],
+a:2,
+e:"Asking for clarification helps prevent mistakes."
+}
+];
+
+let remaining = 900;
+let timerInterval;
+let finished = false;
+
+function startExam() {
+  document.getElementById("exam").hidden = false;
+  document.getElementById("startBtn").disabled = true;
+  renderQuestions();
+  timerInterval = setInterval(updateTimer,1000);
+  window.scrollTo(0,document.getElementById("exam").offsetTop);
+}
+
+function renderQuestions() {
+  const area = document.getElementById("questions");
+  area.innerHTML = questions.map((q,i) => `
+    <div class="question">
+      <h3>${i+1}. ${q.q}</h3>
+      ${q.o.map((option,j) => `
+        <label class="option">
+          <input type="radio" name="q${i}" value="${j}">
+          ${option}
+        </label>
+      `).join("")}
+    </div>
+  `).join("");
+}
+
+function updateTimer() {
+  remaining--;
+  let min = Math.floor(remaining/60);
+  let sec = remaining%60;
+  document.getElementById("timer").textContent =
+    String(min).padStart(2,"0")+":"+
+    String(sec).padStart(2,"0");
+
+  if(remaining<=0) {
+    finishExam();
+  }
+}
+
+function finishExam() {
+  if(finished) return;
+  finished = true;
+  clearInterval(timerInterval);
+
+  let correct = 0;
+  const review = document.getElementById("review");
+
+  questions.forEach((q,i) => {
+    const selected = document.querySelector(
+      input[name="q${i}"]:checked
+    );
+    const answer = selected ? Number(selected.value) : -1;
+    const isCorrect = answer === q.a;
+
+    if(isCorrect) correct++;
+
+    const userAnswer = answer === -1
+      ? "Not answered"
+      : q.o[answer];
+
+    review.innerHTML += `
+      <div class="explanation">
+        <strong>${i+1}. ${q.q}</strong><br>
+        Your answer: ${userAnswer}<br>
+        Correct answer: ${q.o[q.a]}<br>
+        ${isCorrect ? "Correct" : "Incorrect"}<br>
+        Explanation: ${q.e}
+      </div>
+      <hr>
+    `;
+  });
+
+  const mark = correct * 10;
+  document.getElementById("score").textContent =
+    Your score: ${mark}/100;
+  document.getElementById("message").textContent =
+    mark>=70 ? "Good work! Keep practising."
+             : "Keep learning and try again.";
+
+  document.getElementById("exam").hidden = true;
+  document.getElementById("result").style.display = "block";
+  window.scrollTo(0,document.getElementById("result").offsetTop);
+}
+
+document.getElementById("examForm").addEventListener(
+  "submit",function(event) {
+    event.preventDefault();
+    finishExam();
+  }
+);
+</script>
+</body>
+</html>
