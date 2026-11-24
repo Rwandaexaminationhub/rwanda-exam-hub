@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEDO Practice Examination 001 | Rwanda Exam Hub</title>
+<style>
+:root{font-family:Arial,sans-serif;color:#172033;background:#f4f7fb}
+*{box-sizing:border-box}body{margin:0;padding:18px}.wrap{max-width:850px;margin:auto}
+header,.panel{background:white;border-radius:14px;padding:22px;margin:0 0 16px;box-shadow:0 2px 12px #14213d12}
+h1{margin:5px 0 8px;color:#123b68;font-size:clamp(24px,5vw,34px)}
+.sub{color:#526174;line-height:1.5}.tag{display:inline-block;background:#e7f1ff;color:#14518b;padding:6px 10px;border-radius:20px;font-size:13px;margin:0 5px 6px 0}
+.question{padding:16px 0;border-bottom:1px solid #e7ebf0}.question:last-child{border:0}
+.qtitle{font-weight:700;margin-bottom:10px}.option{display:block;padding:9px 10px;margin:6px 0;border:1px solid #dce3ec;border-radius:8px;cursor:pointer}
+.option:hover{background:#f3f8ff}.option input{margin-right:8px}
+button{background:#145a9e;color:white;border:0;padding:12px 18px;border-radius:8px;font-size:16px;cursor:pointer;margin:8px 8px 0 0}
+button.secondary{background:#526174}.result{font-weight:700;font-size:20px;color:#145a35}
+.small{font-size:13px;color:#617084}.hidden{display:none}.correct{color:#14733c}.wrong{color:#b42318}
+@media print{body{background:white}.panel,header{box-shadow:none}.controls{display:none}}
+</style>
+</head>
+<body><main class="wrap">
+<header>
+<div class="tag">RWANDA EXAM HUB</div><div class="tag">JOB SEEKERS • EXAM 001</div>
+<h1>Social Economic Development Officer (SEDO)</h1>
+<p class="sub">Practice examination • 50 multiple-choice questions • 60 minutes • 100 marks</p>
+<p class="small">Choose one answer for each question. Each correct answer earns 2 marks. This is an independent practice paper, not an official government examination.</p>
+</header>
+<form id="quiz" class="panel">
+<div id="questions"></div>
+<div class="controls"><button type="button" id="submit">Submit answers and see score</button><button type="button" class="secondary" id="reset">Reset exam</button></div>
+</form>
+<section id="results" class="panel hidden" aria-live="polite">
+<div class="result" id="score"></div><p id="feedback"></p><h2>Answer review</h2><div id="review"></div>
+<button type="button" onclick="window.print()">Print results</button>
+</section>
+<footer class="small">Rwanda Exam Hub • Learn, practise and prepare.</footer>
+</main>
+<script>
+const questions = [["What is the main responsibility of a Social Economic Development Officer (SEDO)?", ["Managing private companies", "Supporting community social and economic development", "Conducting national elections", "Managing hospitals only"], 1], ["Which level of local government is most closely associated with the SEDO position?", ["Village (Umudugudu)", "Cell (Akagari)", "District", "National Parliament"], 1], ["What is community mobilization?", ["Forcing people to participate in activities", "Encouraging people to participate in community development", "Collecting taxes only", "Organizing political campaigns"], 1], ["Which of the following is an example of community development?", ["Destroying public infrastructure", "Improving access to clean water", "Avoiding community meetings", "Preventing children from attending school"], 1], ["Why should a SEDO understand the needs of local people?", ["To identify appropriate development priorities", "To avoid working with residents", "To increase personal income", "To replace elected leaders"], 0], ["What does accountability mean in public service?", ["Hiding information", "Taking responsibility for one's actions", "Avoiding supervision", "Making decisions for personal benefit"], 1], ["Which quality is essential for a SEDO?", ["Dishonesty", "Poor communication", "Integrity", "Discrimination"], 2], ["What should a SEDO do when residents raise a community concern?", ["Ignore them", "Listen, record and follow up appropriately", "Insult them", "Share their private information publicly"], 1], ["What is the purpose of a community meeting?", ["To discuss community issues and solutions", "To prevent citizens from expressing opinions", "To waste public resources", "To avoid development planning"], 0], ["What is a development priority?", ["A problem or need requiring attention", "A personal business", "A private disagreement", "An entertainment activity"], 0], ["What is decentralization?", ["Concentrating all power in one office", "Transferring responsibilities and decision-making closer to citizens", "Abolishing local government", "Stopping public services"], 1], ["What is the main purpose of public administration?", ["Delivering public services effectively", "Promoting private interests", "Avoiding public responsibilities", "Preventing public participation"], 0], ["Which document helps guide the activities of a public institution?", ["Personal diary", "Institutional strategic plan", "Shopping list", "Private invitation"], 1], ["What should a public servant do when assigned a lawful official duty?", ["Ignore it", "Perform it professionally", "Give it to an unauthorized person", "Refuse without explanation"], 1], ["Which institution is responsible for coordinating local government administration in Rwanda?", ["MINALOC", "MINISPORTS", "RURA", "RDB"], 0], ["What is good governance?", ["Transparency, accountability and participation", "Corruption and discrimination", "Secrecy and abuse of authority", "Personal control of public resources"], 0], ["What is the purpose of keeping official records?", ["To hide information", "To provide reliable information and evidence of activities", "To create unnecessary work", "To avoid reporting"], 1], ["What is conflict resolution?", ["Increasing disagreements", "Finding peaceful solutions to disagreements", "Punishing everyone involved", "Avoiding communication"], 1], ["What does transparency in public service mean?", ["Making appropriate information accessible and understandable", "Hiding all decisions", "Destroying records", "Giving false information"], 0], ["Why is teamwork important in local government?", ["It reduces cooperation", "It helps employees achieve shared objectives", "It creates unnecessary competition", "It prevents communication"], 1], ["What is poverty reduction?", ["Increasing unemployment", "Improving people's living conditions and opportunities", "Reducing access to education", "Preventing economic activities"], 1], ["Which activity can contribute to household economic development?", ["Savings and income-generating activities", "Destroying crops", "Avoiding education", "Wasting resources"], 0], ["What is financial inclusion?", ["Preventing people from accessing financial services", "Improving access to useful and affordable financial services", "Closing all financial institutions", "Restricting savings"], 1], ["What is entrepreneurship?", ["Starting and managing a business activity", "Avoiding productive activities", "Refusing to innovate", "Depending entirely on donations"], 0], ["Which of the following supports youth employment?", ["Skills development and vocational training", "Preventing young people from studying", "Discouraging innovation", "Closing training centres"], 0], ["What is social protection?", ["Measures that help people manage poverty and vulnerability", "Punishment for poor households", "Restricting access to essential services", "Eliminating community support"], 0], ["What is a cooperative?", ["A group of people working together for common economic or social benefits", "A single person's private diary", "A government ministry", "A political campaign"], 0], ["What is the purpose of agricultural extension services?", ["Helping farmers improve agricultural practices", "Preventing farmers from producing crops", "Destroying agricultural land", "Increasing crop diseases"], 0], ["What is sustainable development?", ["Meeting present needs without compromising future generations' ability to meet theirs", "Using all resources without planning", "Ignoring environmental protection", "Focusing only on short-term benefits"], 0], ["Which action can improve household welfare?", ["Access to education, healthcare and income opportunities", "Increasing school dropout", "Preventing access to clean water", "Discouraging productive work"], 0], ["What is effective communication?", ["Sharing information clearly and appropriately", "Giving confusing instructions", "Ignoring feedback", "Spreading rumours"], 0], ["What should you do when handling confidential citizen information?", ["Share it with everyone", "Protect it and disclose it only when legally authorized", "Publish it on social media", "Sell it"], 1], ["What is professional ethics?", ["Standards of proper professional behaviour", "Personal interests above public duties", "Avoiding responsibility", "Disrespecting colleagues"], 0], ["A citizen becomes angry during a service request. What should you do?", ["Respond aggressively", "Listen calmly and handle the matter professionally", "Refuse all assistance", "Publicly embarrass the citizen"], 1], ["What is active listening?", ["Interrupting people", "Paying attention and understanding what someone communicates", "Ignoring questions", "Talking continuously"], 1], ["What should you do if you discover corruption in your workplace?", ["Participate in it", "Follow appropriate reporting procedures", "Hide the evidence", "Encourage colleagues"], 1], ["What is discrimination?", ["Treating people unfairly based on certain characteristics", "Treating people fairly", "Providing equal opportunities", "Respecting human rights"], 0], ["Why is punctuality important?", ["It demonstrates responsibility and respect for time", "It reduces productivity", "It encourages absenteeism", "It prevents teamwork"], 0], ["What should a SEDO do when receiving a complaint?", ["Record and handle it through the proper procedure", "Destroy the complaint", "Ignore the complainant", "Demand a personal reward"], 0], ["What is citizen participation?", ["Involving citizens in decisions and activities affecting their community", "Preventing citizens from expressing opinions", "Giving all decisions to one person", "Avoiding public consultation"], 0], ["If a cell has 500 households and 100 households receive support, what percentage received support?", ["10%", "20%", "25%", "50%"], 1], ["A community project costs 600,000 RWF. If three groups contribute equally, how much does each group contribute?", ["100,000 RWF", "150,000 RWF", "200,000 RWF", "300,000 RWF"], 2], ["What is the average of 10, 20, 30 and 40?", ["20", "25", "30", "35"], 1], ["Which application is commonly used to prepare official letters?", ["Microsoft Word", "Calculator", "Camera", "Music player"], 0], ["Which application is most suitable for organizing household data in tables and performing calculations?", ["Microsoft Excel", "Paint", "VLC", "Camera"], 0], ["What does ICT stand for?", ["International Communication Technology", "Information and Communication Technology", "Internal Computer Training", "Information Control Technique"], 1], ["Which of the following is a strong password practice?", ["Using 123456", "Sharing passwords with colleagues", "Using a unique, difficult-to-guess password", "Using your name only"], 2], ["What is the main purpose of the internet in public service?", ["Accessing and sharing information and services", "Only playing games", "Preventing communication", "Destroying records"], 0], ["If all SEDOs are public servants and some public servants are accountants, which statement is certainly true?", ["All SEDOs are accountants", "Some SEDOs are accountants", "All SEDOs are public servants", "No SEDOs are public servants"], 2], ["A SEDO identifies that many children in a community are not attending school. What is the best first response?", ["Ignore the situation", "Investigate the causes, engage relevant stakeholders and follow up", "Blame parents publicly", "Close the local school"], 1]];
+const letters = ["A","B","C","D"];
+const holder=document.getElementById("questions");
+function render(){
+ holder.innerHTML="";
+ questions.forEach((q,i)=>{
+  const section=document.createElement("section"); section.className="question";
+  const title=document.createElement("div"); title.className="qtitle"; title.textContent=(i+1)+". "+q[0]; section.appendChild(title);
+  q[1].forEach((opt,j)=>{
+   const label=document.createElement("label"); label.className="option";
+   const radio=document.createElement("input"); radio.type="radio"; radio.name="q"+i; radio.value=j;
+   label.appendChild(radio); label.appendChild(document.createTextNode(letters[j]+". "+opt)); section.appendChild(label);
+  });
+  holder.appendChild(section);
+ });
+ document.getElementById("results").classList.add("hidden");
+}
+document.getElementById("submit").addEventListener("click",()=>{
+ let score=0,answered=0; const review=document.getElementById("review"); review.innerHTML="";
+ questions.forEach((q,i)=>{
+  const selected=document.querySelector('input[name="q'+i+'"]:checked');
+  const chosen=selected?Number(selected.value):-1; if(chosen>=0)answered++;
+  const ok=chosen===q[2]; if(ok)score+=2;
+  const p=document.createElement("p");
+  p.className=ok?"correct":"wrong";
+  p.textContent=(i+1)+". "+(ok?"Correct. ":"Incorrect. ")+(chosen<0?"Not answered. ":"Your answer: "+letters[chosen]+". ")+
+   "Correct answer: "+letters[q[2]]+". "+q[1][q[2]];
+  review.appendChild(p);
+ });
+ document.getElementById("score").textContent="Your score: "+score+" / 100";
+ document.getElementById("feedback").textContent="Answered: "+answered+" / 50. Review the explanations shown as correct answers below.";
+ document.getElementById("results").classList.remove("hidden");
+ document.getElementById("results").scrollIntoView({behavior:"smooth"});
+});
+document.getElementById("reset").addEventListener("click",()=>{document.getElementById("quiz").reset();render();window.scrollTo({top:0,behavior:"smooth"});});
+render();
+</script></body></html>
