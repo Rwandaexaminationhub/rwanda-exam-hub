@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEDO Job Seekers Exam | Rwanda Exam Hub</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  margin: 0;
+  color: #1e293b;
+}
+header {
+  background: #123b70;
+  color: white;
+  text-align: center;
+  padding: 24px 12px;
+}
+.container {
+  max-width: 800px;
+  margin: 22px auto;
+  padding: 18px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+}
+.question {
+  margin-bottom: 22px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+}
+.option {
+  display: block;
+  padding: 10px;
+  margin: 7px 0;
+  background: #f1f5f9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.option input {
+  margin-right: 8px;
+}
+button {
+  background: #123b70;
+  color: white;
+  border: 0;
+  padding: 13px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button:disabled {
+  opacity: .5;
+}
+#result {
+  display: none;
+  line-height: 1.7;
+}
+.correct { color: green; }
+.wrong { color: #dc2626; }
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>RWANDA EXAM HUB</h1>
+  <h2>SEDO JOB SEEKERS EXAMINATION</h2>
+  <p>Social Economic Development Officer</p>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h3>Examination Instructions</h3>
+    <p>Number of questions: 20</p>
+    <p>Total marks: 100</p>
+    <p>Each question carries 5 marks.</p>
+    <p>Choose one correct answer for each question.</p>
+    <p>These are practice questions, not official recruitment questions.</p>
+    <strong id="progress">Answered: 0 / 20</strong>
+  </div>
+
+  <div class="card">
+    <form id="examForm">
+      <div id="questions"></div>
+      <button type="submit" id="submitBtn">Submit Examination</button>
+    </form>
+  </div>
+
+  <div class="card" id="result">
+    <h2>Examination Results</h2>
+    <h1 id="score"></h1>
+    <p id="message"></p>
+    <h3>Answer Review</h3>
+    <div id="review"></div>
+    <button onclick="location.reload()">Retake Examination</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Rwanda Exam Hub</p>
+  <p>Learn Today, Succeed Tomorrow.</p>
+</footer>
+
+<script>
+const questions = [
+{
+q:"What is the main purpose of a SEDO?",
+o:["To collect taxes only","To promote socio-economic development","To supervise hospitals","To teach in primary schools"],
+a:1,
+e:"A SEDO supports socio-economic development in the community."
+},
+{
+q:"At which administrative level does a traditional SEDO mainly operate?",
+o:["Province","District","Cell","National"],
+a:2,
+e:"The traditional SEDO role is associated with Cell-level administration."
+},
+{
+q:"Who supervises the SEDO at Cell level?",
+o:["District Mayor","Cell Executive Secretary","Sector Agronomist","Police Commander"],
+a:1,
+e:"The Cell Executive Secretary provides supervision at Cell level."
+},
+{
+q:"What does VUP stand for?",
+o:["Vision Umurenge Programme","Village Unity Project","Vision Universal Policy","Voluntary Umuganda Programme"],
+a:0,
+e:"VUP means Vision Umurenge Programme."
+},
+{
+q:"Why are vulnerable households identified?",
+o:["To punish them","To provide appropriate support","To exclude them","To increase taxes"],
+a:1,
+e:"Identification helps ensure that eligible households receive appropriate assistance."
+},
+{
+q:"What is community mobilisation?",
+o:["Encouraging citizens to participate in development","Ordering citizens to leave villages","Collecting personal money","Stopping meetings"],
+a:0,
+e:"Community mobilisation encourages citizens to work together."
+},
+{
+q:"Which document records activities carried out by a Cell?",
+o:["Passport","Activity report","Driving licence","Birth certificate"],
+a:1,
+e:"Activity reports document completed activities and progress."
+},
+{
+q:"What does accountability mean?",
+o:["Avoiding responsibility","Being answerable for actions and decisions","Hiding information","Ignoring citizens"],
+a:1,
+e:"Accountability means taking responsibility for decisions and actions."
+},
+{
+q:"Which skill is important for a SEDO?",
+o:["Poor communication","Teamwork","Dishonesty","Discrimination"],
+a:1,
+e:"Teamwork helps a SEDO cooperate with citizens and colleagues."
+},
+{
+q:"What should a SEDO do when identifying a community problem?",
+o:["Ignore it","Collect information and assess needs","Blame citizens","Hide the problem"],
+a:1,
+e:"Good decisions require accurate information and assessment."
+},
+{
+q:"What is the purpose of Umuganda?",
+o:["Community participation in development","Political campaigning","Private business only","Entertainment only"],
+a:0,
+e:"Umuganda promotes community participation in development."
+},
+{
+q:"What is poverty reduction?",
+o:["Increasing household difficulties","Helping people improve living conditions","Reducing access to education","Stopping employment"],
+a:1,
+e:"Poverty reduction aims to improve people's livelihoods."
+},
+{
+q:"Which institutions are involved in local government administration at district level?",
+o:["District Council and District administration","Private companies only","School clubs","Village families"],
+a:0,
+e:"District governance involves elected leadership and district administration."
+},
+{
+q:"Why is accurate data collection important?",
+o:["It supports informed planning and decisions","It wastes time","It creates rumours","It prevents development"],
+a:0,
+e:"Reliable data supports planning, monitoring and decision-making."
+},
+{
+q:"How should confidential household information be handled?",
+o:["Publish it publicly","Share it with friends","Protect it and use it appropriately","Sell it"],
+a:2,
+e:"Personal information must be protected and handled responsibly."
+},
+{
+q:"What does NST2 refer to?",
+o:["National Strategy for Transformation 2","National School Training 2","New Social Tax 2","National Security Team 2"],
+a:0,
+e:"NST2 is Rwanda's Second National Strategy for Transformation."
+},
+{
+q:"Which is an example of citizen participation?",
+o:["Attending community meetings","Avoiding all activities","Destroying public property","Refusing cooperation"],
+a:0,
+e:"Participation includes attending meetings and contributing to community decisions."
+},
+{
+q:"What should a SEDO do when a household needs social support?",
+o:["Ignore the household","Assess its situation and refer through appropriate channels","Make promises without verification","Demand payment"],
+a:1,
+e:"The household should be assessed and referred through the proper procedures."
+},
+{
+q:"Which application is commonly used to prepare reports?",
+o:["Microsoft Word","Calculator only","Camera","Music player"],
+a:0,
+e:"Microsoft Word is commonly used to prepare written reports."
+},
+{
+q:"What is the importance of teamwork?",
+o:["It creates conflicts","It improves cooperation and achievement of goals","It prevents communication","It encourages isolation"],
+a:1,
+e:"Teamwork improves cooperation and helps achieve shared goals."
+}
+];
+
+const questionArea = document.getElementById("questions");
+
+questions.forEach((q,i) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  div.innerHTML = <h3>${i+1}. ${q.q}</h3>;
+  q.o.forEach((option,j) => {
+    const label = document.createElement("label");
+    label.className = "option";
+    label.innerHTML =
+      `<input type="radio" name="q${i}" value="${j}">
+       ${String.fromCharCode(65+j)}. ${option}`;
+    div.appendChild(label);
+  });
+  questionArea.appendChild(div);
+});
+
+const form = document.getElementById("examForm");
+
+form.addEventListener("change", () => {
+  const count = questions.filter((q,i) =>
+    form.querySelector(input[name="q${i}"]:checked)
+  ).length;
+  document.getElementById("progress").textContent =
+    Answered: ${count} / 20;
+});
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const unanswered = questions.filter((q,i) =>
+    !form.querySelector(input[name="q${i}"]:checked)
+  ).length;
+
+  if(unanswered > 0) {
+    alert("Please answer all questions before submitting.");
+    return;
+  }
+
+  let marks = 0;
+  let review = "";
+
+  questions.forEach((q,i) => {
+    const selected = Number(
+      form.querySelector(input[name="q${i}"]:checked).value
+    );
+    const correct = selected === q.a;
+    if(correct) marks += 5;
+
+    review += `
+      <div class="question">
+        <strong>${i+1}. ${q.q}</strong>
+        <p class="${correct ? "correct" : "wrong"}">
+          Your answer: ${q.o[selected]} 
+          — ${correct ? "Correct" : "Incorrect"}
+        </p>
+        <p><strong>Correct answer:</strong> ${q.o[q.a]}</p>
+        <p><strong>Explanation:</strong> ${q.e}</p>
+      </div>`;
+  });
+
+  form.style.display = "none";
+  document.getElementById("result").style.display = "block";
+  document.getElementById("score").textContent = marks + " / 100";
+  document.getElementById("message").textContent =
+    marks >= 80 ? "Excellent work!" :
+    marks >= 60 ? "Good effort. Keep practising!" :
+    "Keep studying and try again!";
+  document.getElementById("review").innerHTML = review;
+
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+</script>
+
+</body>
+</html>
